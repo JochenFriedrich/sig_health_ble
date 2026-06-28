@@ -1,0 +1,6 @@
+pytest>=7.4
+pytest-asyncio>=0.23
+pytest-cov>=4.1
+bleak>=0.21.1
+bleak-retry-connector>=3.4.0
+homeassistant>=2024.1.0

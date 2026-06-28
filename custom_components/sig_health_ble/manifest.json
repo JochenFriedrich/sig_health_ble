@@ -1,0 +1,20 @@
+{
+  "domain": "sig_health_ble",
+  "name": "SIG Health BLE",
+  "version": "1.0.0",
+  "config_flow": true,
+  "dependencies": ["bluetooth"],
+  "bluetooth": [
+    {"service_uuid": "00001810-0000-1000-8000-00805f9b34fb"},
+    {"service_uuid": "00001808-0000-1000-8000-00805f9b34fb"},
+    {"service_uuid": "0000181d-0000-1000-8000-00805f9b34fb"},
+    {"service_uuid": "0000181b-0000-1000-8000-00805f9b34fb"}
+  ],
+  "requirements": [
+    "bleak-retry-connector>=3.4.0",
+    "bleak>=0.21.1"
+  ],
+  "codeowners": ["@JochenFriedrich"],
+  "iot_class": "local_push",
+  "documentation": "https://github.com/JochenFriedrich/sig_health_ble"
+}

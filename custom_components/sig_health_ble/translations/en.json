@@ -1,0 +1,108 @@
+{
+  "issues": {
+    "manual_pairing_required": {
+      "title": "{device_name} needs manual re-pairing",
+      "description": "The device at {address} failed to pair or authenticate. This commonly happens because stock ESPHome bluetooth_proxy does not handle passkey or numeric comparison requests (ESP_GAP_BLE_PASSKEY_REQ_EVT is not surfaced to Home Assistant).\n\nReason: {reason}\n\nTo fix this, open this integration's Reconfigure flow and follow the unpair/re-pair wizard. You will need to temporarily reflash the relevant ESPHome proxy into `ble_client` mode with `io_capability: keyboard_display` to complete pairing, then reflash it back to `bluetooth_proxy` mode."
+    },
+    "proxy_switch_detected": {
+      "title": "{device_name} connected via a different proxy",
+      "description": "The device at {address} was last successfully connected through proxy '{previous_proxy}', but this connection attempt is going through '{new_proxy}' instead.\n\nIf this device uses BLE bonding, the new proxy may not have the device's stored LTK (Long Term Key), or worse, attempting to pair via the new proxy may cause the device to invalidate its bond with the previous proxy.\n\nTo prevent this, open this integration's Reconfigure flow and pin this device to a specific proxy."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Measurement settings",
+        "data": {
+          "time_window_enabled": "Enable timestamp validation",
+          "time_window_minutes": "Valid time window (minutes)",
+          "max_history_entries": "Max history entries"
+        }
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Choose device type",
+        "data": {
+          "device_type": "Device type"
+        }
+      },
+      "select_device": {
+        "title": "Select device",
+        "description": "{count} compatible device(s) found.",
+        "data": {
+          "address": "Device"
+        }
+      },
+      "bluetooth_confirm": {
+        "title": "Confirm device",
+        "description": "Set up {name} ({address}) as a {device_type}?"
+      },
+      "select_proxy": {
+        "title": "Select bonded proxy",
+        "description": "Select the ESPHome proxy that holds the bond for {device_type} at {address}.",
+        "data": {
+          "bonded_proxy": "Proxy"
+        }
+      },
+      "unpair_proxy": {
+        "title": "Clear existing bond",
+        "description": "Optionally clear the existing bond for {address} on proxy '{proxy}'. This is needed if the LTK is stale.\n\n{unpair_error}",
+        "data": {
+          "do_unpair": "Clear bond now"
+        }
+      },
+      "pair_proxy": {
+        "title": "Re-pair device",
+        "description": "Trigger pairing for {address}. Choose the method your device uses.\n\n{pair_error}",
+        "data": {
+          "pairing_method": "Pairing method",
+          "passkey": "Passkey (digits only, e.g. 0000)"
+        }
+      }
+    },
+    "abort": {
+      "not_supported": "Device type not recognised.",
+      "no_options": "No options available for this device type.",
+      "reconfigure_successful": "Reconfiguration successful.",
+      "already_configured": "Device is already configured."
+    },
+    "error": {
+      "unpair_failed": "Failed to clear bond: {unpair_error}",
+      "pairing_action_failed": "Pairing action failed: {pair_error}",
+      "passkey_required": "Enter the passkey shown on the device.",
+      "passkey_not_numeric": "Passkey must contain digits only (e.g. 0000)."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Scale settings",
+        "data": {
+          "uds_user_index": "UDS user index (0–255, 255 = unknown)",
+          "uds_consent_code": "UDS consent code (0–65535)",
+          "uds_auto_register": "Auto-register new user if slot is empty",
+          "cooldown_minutes": "Cooldown after measurement (minutes)",
+          "require_connectable": "Only connect when device is connectable"
+        }
+      }
+    },
+    "error": {
+      "user_index_out_of_range": "User index must be between 0 and 255.",
+      "consent_code_out_of_range": "Consent code must be between 0 and 65535.",
+      "cooldown_out_of_range": "Cooldown must be between 1 and 1440 minutes."
+    }
+  },
+  "issues": {
+    "manual_pairing_required": {
+      "title": "{device_name} needs manual re-pairing",
+      "description": "The device at {address} failed to pair or authenticate. This commonly happens because stock ESPHome bluetooth_proxy does not handle passkey or numeric comparison requests (ESP_GAP_BLE_PASSKEY_REQ_EVT is not surfaced to Home Assistant).\n\nReason: {reason}\n\nTo fix this, open this integration's Reconfigure flow and follow the unpair/re-pair wizard. You will need to temporarily reflash the relevant ESPHome proxy into `ble_client` mode with `io_capability: keyboard_display` to complete pairing, then reflash it back to `bluetooth_proxy` mode."
+    },
+    "proxy_switch_detected": {
+      "title": "{device_name} connected via a different proxy",
+      "description": "The device at {address} was last successfully connected through proxy '{previous_proxy}', but this connection attempt is going through '{new_proxy}' instead.\n\nIf this device uses BLE bonding, the new proxy may not have the device's stored LTK (Long Term Key), or worse, attempting to pair via the new proxy may cause the device to invalidate its bond with the previous proxy.\n\nTo prevent this, open this integration's Reconfigure flow and pin this device to a specific proxy."
+    }
+  }
+}
