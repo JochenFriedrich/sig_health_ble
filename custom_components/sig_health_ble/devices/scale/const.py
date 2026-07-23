@@ -94,7 +94,7 @@ def _beurer_ready(service_info: Any) -> bool:
 
 
 SCALE_MODELS: dict[str, ScaleConfig] = {
-    "BF105": ScaleConfig(bonding_required=False, is_measurement_ready=_beurer_ready),
+    "BF105": ScaleConfig(bonding_required=True, is_measurement_ready=_beurer_ready),
     "BF720": ScaleConfig(bonding_required=True,  is_measurement_ready=_beurer_ready),
     # Add further models here; non-Beurer devices can use the default lambda
 }

@@ -20,6 +20,7 @@ from ...diagnostic_sensor import create_proxy_diagnostic_sensor
 from .coordinator import GlucoseCoordinator
 from .parser import GlucoseMeasurement
 from .measurement_sensor import GlucoseMeasurementSensor
+from .history_sensor import GlucoseHistorySensor
 
 _ATTRIBUTION = "Bluetooth SIG Glucose Service (0x1808)"
 UNIT_MMOL_L = "mmol/L"
@@ -141,6 +142,7 @@ async def async_setup_entry(
         device_manufacturer="Bluetooth SIG",
         device_model="Glucose Meter (0x1808)",
     ))
+    entities.append(GlucoseHistorySensor(coordinator, entry))
     entities.append(GlucoseMeasurementSensor(coordinator, entry))
     async_add_entities(entities)
 

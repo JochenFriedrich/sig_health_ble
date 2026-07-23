@@ -51,6 +51,8 @@ class BloodPressureMeasurement:
     # Raw status uint16 — None if FLAG_MEASUREMENT_STATUS was not set
     status_raw: Optional[int] = None
     raw: bytes = field(default_factory=bytes, repr=False)
+    # History
+    _history: list[BloodPressureMeasurement] = None
 
     @property
     def is_valid(self) -> bool:

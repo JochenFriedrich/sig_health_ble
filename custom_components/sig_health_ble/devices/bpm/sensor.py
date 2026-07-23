@@ -22,6 +22,7 @@ from .const import UNIT_MMHG, UNIT_KPA
 from .coordinator import BPMCoordinator
 from .parser import BloodPressureMeasurement
 from .measurement_sensor import BPMMeasurementSensor
+from .history_sensor import BPMHistorySensor
 
 _ATTRIBUTION = "Bluetooth SIG Blood Pressure Service (0x1810)"
 
@@ -165,6 +166,7 @@ async def async_setup_entry(
         device_model="Blood Pressure Monitor (0x1810)",
     ))
     entities.append(BPMMeasurementSensor(coordinator, entry))
+    entities.append(BPMHistorySensor(coordinator, entry))
     async_add_entities(entities)
 
 

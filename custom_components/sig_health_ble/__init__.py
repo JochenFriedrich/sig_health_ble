@@ -94,7 +94,7 @@ def _build_coordinator(
 
     if device_type == DEVICE_TYPE_BPM:
         from .devices.bpm.coordinator import BPMCoordinator
-        return BPMCoordinator(hass, address, name, entry_id=entry.entry_id)
+        return BPMCoordinator(hass, address, name, config_entry=entry, entry_id=entry.entry_id)
 
     if device_type == DEVICE_TYPE_GLUCOSE:
         from .devices.glucose.coordinator import GlucoseCoordinator

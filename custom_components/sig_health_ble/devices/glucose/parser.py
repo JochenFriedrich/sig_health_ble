@@ -93,6 +93,8 @@ class GlucoseMeasurement:
     status_raw: Optional[int] = None
     context: Optional[GlucoseMeasurementContext] = None
     raw: bytes = field(default_factory=bytes, repr=False)
+    # History
+    _history: list[GlucoseMeasurement] = None
 
     @property
     def measurement_valid(self) -> Optional[bool]:

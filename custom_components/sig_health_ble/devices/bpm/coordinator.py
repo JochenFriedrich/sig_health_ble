@@ -15,6 +15,8 @@ from .const import (
     BP_SERVICE_UUID, BP_MEASUREMENT_UUID, INTERMEDIATE_CUFF_UUID,
     NOTIFICATION_TIMEOUT, IDLE_AFTER_LAST_RECORD_TIMEOUT,
 )
+from ...const import CONF_MAX_HISTORY, _DEFAULT_MAX_HISTORY
+
 from .parser import BloodPressureMeasurement, parse_blood_pressure_measurement
 
 _LOGGER = logging.getLogger(__name__)
@@ -23,10 +25,15 @@ _LOGGER = logging.getLogger(__name__)
 class BPMCoordinator(NotifyCoordinator):
     """Coordinator for a single BPM device."""
 
-    def __init__(self, hass: HomeAssistant, address: str, name: str, entry_id: str = "") -> None:
+    def __init__(self, hass: HomeAssistant, address: str, name: str, config_entry: ConfigEntry | None = None, entry_id: str = "") -> None:
         super().__init__(hass, address, name, entry_id=entry_id)
+        self._entry = config_entry
         self._last_measurement: BloodPressureMeasurement | None = None
         self._done_event: asyncio.Event = asyncio.Event()
+
+    @property
+    def _opts(self) -> dict:
+        return self._entry.options
 
     def _on_disconnected(self) -> None:
         self._done_event.set()
@@ -106,6 +113,17 @@ class BPMCoordinator(NotifyCoordinator):
             self.address, latest.systolic, latest.diastolic,
             latest.unit, latest.pulse_rate, latest.timestamp,
         )
+
+        seen = set()
+        deduped = []
+        for item in received:
+            key = item.timestamp
+            if key not in seen:
+                seen.add(key)
+                deduped.append(item)
+        max_entries = self._opts.get(CONF_MAX_HISTORY, _DEFAULT_MAX_HISTORY)
+        self._history = sorted(deduped, key=lambda x: x.timestamp or datetime.min, reverse=True)[:max_entries]
+        latest._history = self._history
         self._last_measurement = latest
         self.async_set_updated_data(latest)
 

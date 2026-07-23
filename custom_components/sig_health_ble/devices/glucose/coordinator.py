@@ -172,6 +172,18 @@ class GlucoseCoordinator(NotifyCoordinator):
             self.address, len(measurements),
             latest.sequence_number, latest.glucose_mmol_l or 0, latest.timestamp,
         )
+
+        seen = set()
+        deduped = []
+        for item in received:
+            key = item.timestamp
+            if key not in seen:
+                seen.add(key)
+                deduped.append(item)
+        max_entries = self._opts.get(CONF_MAX_HISTORY, _DEFAULT_MAX_HISTORY)
+        self._history = sorted(deduped, key=lambda x: x.timestamp or datetime.min, reverse=True)[:max_entries]
+        latest._history = self._history
+
         self._last_measurement = latest
         self.async_set_updated_data(latest)
 
