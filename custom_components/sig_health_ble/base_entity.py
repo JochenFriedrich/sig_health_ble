@@ -44,3 +44,46 @@ class SigHealthBleEntity(CoordinatorEntity, RestoreEntity, SensorEntity):
         strings, booleans).  Default implementation tries float conversion.
         """
         return float(state)
+
+class MeasurementSensor(CoordinatorEntity, RestoreEntity, SensorEntity):
+    """Single composite sensor exposing all measurement fields as attributes.
+
+    Designed to co-exist alongside the individual field sensors — both are
+    registered; users can choose whichever suits their use case.
+    """
+
+    _attr_has_entity_name = True
+    _attr_should_poll = False
+    _attr_available = True
+
+    async def async_added_to_hass(self) -> None:
+        await super().async_added_to_hass()
+        if last_state := await self.async_get_last_state():
+            if last_state.state not in ("unavailable", "unknown", None):
+                try:
+                    self._attr_native_value = float(last_state.state)
+                    self._attr_available = True
+                except (ValueError, TypeError):
+                    pass
+
+    @property
+    def native_value(self) -> Any:
+        data = self.coordinator.data
+        if data is None:
+            return self._attr_native_value
+        return self._primary_value(data)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        data = self.coordinator.data
+        if data is None:
+            return {}
+        # Omit None values so the attribute list stays clean
+        return {k: v for k, v in self._attributes(data).items() if v is not None}
+
+    def _primary_value(self, data: Any) -> Any:
+        raise NotImplementedError
+
+    def _attributes(self, data: Any) -> dict[str, Any]:
+        raise NotImplementedError
+

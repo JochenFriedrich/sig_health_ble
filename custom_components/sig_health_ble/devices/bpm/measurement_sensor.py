@@ -12,7 +12,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import UnitOfPressure
 from homeassistant.helpers.device_registry import DeviceInfo
 
-from ...measurement_sensor import MeasurementSensor
+from ...base_entity import MeasurementSensor
 from ...const import DOMAIN
 from .const import UNIT_MMHG, UNIT_KPA
 from .coordinator import BPMCoordinator

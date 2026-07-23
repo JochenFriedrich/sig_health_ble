@@ -11,7 +11,7 @@ from homeassistant.components.sensor import SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.device_registry import DeviceInfo
 
-from ...measurement_sensor import MeasurementSensor
+from ...base_entity import MeasurementSensor
 from ...const import DOMAIN
 from .coordinator import GlucoseCoordinator
 from .parser import GlucoseMeasurement

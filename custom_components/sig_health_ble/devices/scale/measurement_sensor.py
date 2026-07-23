@@ -11,7 +11,7 @@ from homeassistant.components.sensor import SensorDeviceClass, SensorStateClass
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.device_registry import DeviceInfo
 
-from ...measurement_sensor import MeasurementSensor
+from ...base_entity import MeasurementSensor
 from ...const import DOMAIN
 from .const import UNIT_KG, CONF_SCALE_MODEL
 from .coordinator import ScaleCoordinator
